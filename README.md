@@ -70,7 +70,7 @@ The following demo uses a snyk test JSON result set against a rego policy file t
 
 Note: The following demos include two REGO policy files so we will specify which one to use for each run shortly.
 
-- cd into the "" folder as shown below
+- cd into the "**sca-test**" folder as shown below
 
 ```shell
 $ cd sca-test
@@ -155,6 +155,47 @@ FAIL - - main - medium: 23 is greater than the threshold of 5
 
 ## Snyk Code Test
 
+The following demo uses a snyk code test JSON result set to look for rule based vulnerabilities over a certain threshold
+
+- cd into the "**code-test**" folder as shown below
+- 
+```shell
+$ cd code-test
+```
+
+- View the policy ./policy/main.rego as shown below
+
+```python
+package main
+
+# Set these to the number you require. The policy will fail if it finds a single vulverability defined as either of the following
+rule_names = {
+  "HardcodedPassword": 0,
+  "Sqli": 0
+}
+
+deny[msg] {
+  rule = rule_value
+  rule_value = rule_map[_]
+  num = count([vuln | vuln = input.runs[_].tool.driver.rules[_]; vuln.name == rule_value])
+  num > rule_names[rule_value]
+  msg = sprintf("%s: %v is greater than the threshold of %v", [rule_value, num, rule_names[rule_value]])
+}
+
+rule_map = ["HardcodedPassword", "Sqli"]
+```
+
+_Note: THis policy file simply checks if we have at least 1 Sql Injection or Hardcode Password Rule Vulnerability. The full rule set of snyk code is [here](https://docs.snyk.io/scan-applications/snyk-code/security-rules-used-by-snyk-code)_
+
+- Run it as follows
+
+```shell
+$ snyk code test --json ../sca-test/snyk-boot-web | conftest test -
+FAIL - - main - HardcodedPassword: 1 is greater than the threshold of 0
+FAIL - - main - Sqli: 1 is greater than the threshold of 0
+
+2 tests, 0 passed, 0 warnings, 2 failures, 0 exceptions
+```
 
 <hr />
 Pas Apicella [pas at snyk.io] is a Principal Solution Engineer at Snyk APJ 
