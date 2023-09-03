@@ -185,7 +185,9 @@ deny[msg] {
 rule_map = ["HardcodedPassword", "Sqli"]
 ```
 
-_Note: THis policy file simply checks if we have at least 1 Sql Injection or Hardcode Password Rule Vulnerability. The full rule set of snyk code is [here](https://docs.snyk.io/scan-applications/snyk-code/security-rules-used-by-snyk-code)_
+_Note: This policy file simply checks if we have at least 1 Sql Injection or Hardcode Password Rule Vulnerability. You can add further rules and increase the thresholds rather than just break the policy on a single vuln as shown in the examples above.
+
+The full rule set of snyk code is [here](https://docs.snyk.io/scan-applications/snyk-code/security-rules-used-by-snyk-code)_
 
 - Run it as follows
 
