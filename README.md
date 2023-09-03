@@ -50,7 +50,7 @@ severity_map = ["low", "medium", "high", "critical"]
 _Few things to note here_
 
 1. Conftest relies on the Rego language from Open Policy Agent for writing policies.
-2. thresholds data structure defines how many vulnerabilities of severity type are allowed before we fail the policy test
+2. Thresholds data structure defines how many vulnerabilities of severity type are allowed before we fail the policy test
 3. this demo has a single deny block but you could add more
 
 - Test it as follows
@@ -68,7 +68,7 @@ FAIL - - main - medium: 90 is greater than the threshold of 10
 
 The following demo uses a snyk test JSON result set against a rego policy file to break a build based on the policy file conditions.
 
-Note: The following demos include two REGO policy files so we will specify which one to use for each run shortly.
+_Note: The following demos include two REGO policy files, so we will specify which one to use for each run shortly._
 
 - cd into the "**sca-test**" folder as shown below
 
@@ -87,7 +87,7 @@ drwxr-xr-x  6 pasapicella  staff   192  3 Sep 18:10 ..
 -rw-r--r--  1 pasapicella  staff   603  2 Sep 22:53 exploit-test.rego
 ```
 
-- For this demo we are going to use the "exploit-and-severity-count-test.rego", inspect the file as follows.
+- For this demo we are going to use the "**exploit-and-severity-count-test.rego**", inspect the file as follows.
 
 _Note: This policy file will fail for severity thresholds hit or exploit thresholds hit_
 
