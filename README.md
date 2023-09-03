@@ -186,7 +186,7 @@ deny[msg] {
 rule_map = ["HardcodedPassword", "Sqli"]
 ```
 
-_Note: This policy file simply checks if we have at least 1 Sql Injection or Hardcode Password Rule Vulnerability. You can add further rules and increase the thresholds rather than just break the policy on a single vuln as shown in the examples above.
+_Note: This policy file simply checks if we have at least 1 Sql Injection or Hardcode Password Rule Vulnerability. You can add further rules and increase the thresholds rather than just break the policy on a single vuln as shown in the examples above._
 
 Ie:
 
@@ -197,7 +197,7 @@ rule_names = {
 }
 ```
 
-The full rule set of snyk code is [here](https://docs.snyk.io/scan-applications/snyk-code/security-rules-used-by-snyk-code)_
+The full rule set of snyk code is [here](https://docs.snyk.io/scan-applications/snyk-code/security-rules-used-by-snyk-code)
 
 - Run it as follows. Here there is only a single Rego policy file, so we don't need to specify which one we are using here
 
