@@ -20,7 +20,7 @@ The following demo using the JSON return result set from a snyk container test a
 $ cd simple-demo-container
 ```
 
-- view the file ./policy/main.rego file and view it's contents
+- view the file "**./policy/main.rego**" file and view it's contents
 
 ```python
 package main
@@ -65,6 +65,93 @@ FAIL - - main - medium: 90 is greater than the threshold of 10
 ```
 
 ## SCA / Open-Source Test
+
+The following demo uses a snyk test JSON result set against a rego policy file to break a build based on the policy file conditions.
+
+Note: The following demos include two REGO policy files so we will specify which one to use for each run shortly.
+
+- cd into the "" folder as shown below
+
+```shell
+$ cd sca-test
+```
+
+- View both policy files as shown below. 
+
+```shell
+$ ls -la ./policy
+total 16
+drwxr-xr-x  4 pasapicella  staff   128  2 Sep 23:07 .
+drwxr-xr-x  6 pasapicella  staff   192  3 Sep 18:10 ..
+-rw-r--r--  1 pasapicella  staff  1163  2 Sep 23:06 exploit-and-severity-count-test.rego
+-rw-r--r--  1 pasapicella  staff   603  2 Sep 22:53 exploit-test.rego
+```
+
+- For this demo we are going to use the "exploit-and-severity-count-test.rego", inspect the file as follows.
+
+_Note: This policy file will fail for severity thresholds hit or exploit thresholds hit_
+
+```python
+package main
+
+# Set these to the number you require. The policy will fail if it finds more vulnerabilities for the given exploit
+exploits = {
+  "Proof of Concept": 5,
+  "Not Defined": 100,
+  "Functional": 1,
+  "Mature": 0,
+}
+
+# Set these to the number you require. The policy will fail if it finds more vulnerabilities for the given severity
+thresholds = {
+  "low": 10,
+  "medium": 5,
+  "high": 2,
+  "critical": 0,
+}
+
+deny[msg] {
+  exploit = exploit_value
+  exploit_value = exploit_map[_]
+  num = count([vuln | vuln = input.vulnerabilities[_]; vuln.exploit == exploit_value])
+  num > exploits[exploit_value]
+  msg = sprintf("%s: %v is greater than the threshold of %v", [exploit_value, num, exploits[exploit_value]])
+}
+
+exploit_map = ["Proof of Concept", "Not Defined", "Functional", "Mature"]
+
+deny[msg] {
+  severity = severity_value
+  severity_value = severity_map[_]
+  num = count([vuln | vuln = input.vulnerabilities[_]; vuln.severity == severity_value])
+  num > thresholds[severity_value]
+  msg = sprintf("%s: %v is greater than the threshold of %v", [severity_value, num, thresholds[severity_value]])
+}
+
+severity_map = ["low", "medium", "high", "critical"]
+```
+
+- Ensure that snyk test will work against the source code "**./snyk-boot-web**". It includes a pom.xml so you would need to build the code to generate a dependancy tree 
+
+```shell
+$ cd README.md:134
+$ mvn package 
+$ cd ..
+```
+
+- Run it as follows
+
+Note: Here we specify the REGO policy file we wish to use
+
+```shell
+$ snyk test --json ./snyk-boot-web | conftest test --policy=./policy/exploit-and-severity-count-test.rego -
+FAIL - - main - Proof of Concept: 12 is greater than the threshold of 5
+FAIL - - main - critical: 3 is greater than the threshold of 0
+FAIL - - main - high: 9 is greater than the threshold of 2
+FAIL - - main - medium: 23 is greater than the threshold of 5
+
+4 tests, 0 passed, 0 warnings, 4 failures, 0 exceptions
+```
 
 ## Snyk Code Test
 
