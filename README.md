@@ -2,7 +2,7 @@
 
 The following demos show how to use [conftest](https://www.conftest.dev/) with Snyk to break builds based on certain conditions.
 
-Conftest is a utility to help you write tests against structured configuration data. For instance, you could write tests for your Kubernetes configurations, Tekton pipeline definitions, Terraform code, Serverless configs or any other structured data. In this case we are using JSON return result set from a snyk container, open-source and code test
+[Conftest](https://www.conftest.dev/) is a utility to help you write tests against structured configuration data. For instance, you could write tests for your Kubernetes configurations, Tekton pipeline definitions, Terraform code, Serverless configs or any other structured data. In this case we are using JSON return result set from a snyk container, open-source and code test using the Snyk CLI.
 
 ## Pre Requistes
 
@@ -52,7 +52,7 @@ _Few things to note here_
 
 1. Conftest relies on the Rego language from Open Policy Agent for writing policies.
 2. Thresholds data structure defines how many vulnerabilities of severity type are allowed before we fail the policy test
-3. this demo has a single deny block but you could add more
+3. This demo has a single deny block, but you could add more which we will do on the next demo
 
 - Test it as follows
 
@@ -90,7 +90,7 @@ drwxr-xr-x  6 pasapicella  staff   192  3 Sep 18:10 ..
 
 - For this demo we are going to use the "**exploit-and-severity-count-test.rego**", inspect the file as follows.
 
-_Note: This policy file will fail for severity thresholds hit or exploit thresholds hit_
+_Note: This policy file will fail for severity thresholds hit or exploit thresholds hit as defined below._
 
 ```python
 package main
@@ -142,7 +142,7 @@ $ cd ..
 
 - Run it as follows
 
-_Note: Here we specify the Rego policy file we wish to use_
+_Note: Here we specify the Rego policy file we wish to use with the flag **--policy**_
 
 ```shell
 $ snyk test --json ./snyk-boot-web | conftest test --policy=./policy/exploit-and-severity-count-test.rego -
@@ -199,7 +199,7 @@ rule_names = {
 
 The full rule set of snyk code is [here](https://docs.snyk.io/scan-applications/snyk-code/security-rules-used-by-snyk-code)_
 
-- Run it as follows. Here there is only a single Rego policy file so we don't need to specify which one we are using here
+- Run it as follows. Here there is only a single Rego policy file, so we don't need to specify which one we are using here
 
 ```shell
 $ snyk code test --json ../sca-test/snyk-boot-web | conftest test -
@@ -208,6 +208,8 @@ FAIL - - main - Sqli: 1 is greater than the threshold of 0
 
 2 tests, 0 passed, 0 warnings, 2 failures, 0 exceptions
 ```
+
+### More demos to follow!!!
 
 <hr />
 Pas Apicella [pas at snyk.io] is a Principal Solution Engineer at Snyk APJ 
