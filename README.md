@@ -12,6 +12,8 @@ Conftest is a utility to help you write tests against structured configuration d
 
 ## Container Test
 
+The following demo using the JSON return result set from a snyk container test against a rego policy file to break a build based on the policy file conditions.
+
 - cd into "**simple-container-demo**" directory as shown below
 
 ```shell
@@ -47,9 +49,9 @@ severity_map = ["low", "medium", "high", "critical"]
 
 _Few things to note here_
 
-Conftest relies on the Rego language from Open Policy Agent for writing policies.
-thresholds data structure defines how many vulnerabilities of severity type are allowed before we fail the policy test
-this demo has a single deny block but you could add more
+1. Conftest relies on the Rego language from Open Policy Agent for writing policies.
+2. thresholds data structure defines how many vulnerabilities of severity type are allowed before we fail the policy test
+3. this demo has a single deny block but you could add more
 
 - Test it as follows
 
