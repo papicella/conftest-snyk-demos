@@ -163,7 +163,7 @@ The following demo uses a snyk code test JSON result set to look for rule based 
 $ cd code-test
 ```
 
-- View the policy ./policy/main.rego as shown below
+- View the policy "**./policy/main.rego**" as shown below
 
 ```python
 package main
