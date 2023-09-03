@@ -134,14 +134,14 @@ severity_map = ["low", "medium", "high", "critical"]
 - Ensure that snyk test will work against the source code "**./snyk-boot-web**". It includes a pom.xml so you would need to build the code to generate a dependancy tree 
 
 ```shell
-$ cd README.md:134
+$ cd snyk-boot-web
 $ mvn package 
 $ cd ..
 ```
 
 - Run it as follows
 
-Note: Here we specify the REGO policy file we wish to use
+_Note: Here we specify the REGO policy file we wish to use_
 
 ```shell
 $ snyk test --json ./snyk-boot-web | conftest test --policy=./policy/exploit-and-severity-count-test.rego -
