@@ -6,13 +6,14 @@ Conftest is a utility to help you write tests against structured configuration d
 
 ## Pre Requistes
 
+* [Snyk Account](https://app.snyk.io)
 * [Snyk CLI](https://docs.snyk.io/snyk-cli/install-or-update-the-snyk-cli) 
-* Maven to build the required source code example in order to run a snyk test
+* Maven to build the required source code example in order to run a snyk test - Only for Open-Source test
 * [conftest](https://www.conftest.dev/)
 
 ## Container Test
 
-The following demo using the JSON return result set from a snyk container test against a rego policy file to break a build based on the policy file conditions.
+The following demo using the JSON return result set from a snyk container test against a Rego policy file to break a build based on the policy file conditions.
 
 - cd into "**simple-container-demo**" directory as shown below
 
@@ -66,9 +67,9 @@ FAIL - - main - medium: 90 is greater than the threshold of 10
 
 ## SCA / Open-Source Test
 
-The following demo uses a snyk test JSON result set against a rego policy file to break a build based on the policy file conditions.
+The following demo uses a snyk test JSON result set against a Rego policy file to break a build based on the policy file conditions.
 
-_Note: The following demos include two REGO policy files, so we will specify which one to use for each run shortly._
+_Note: The following demos include two Rego policy files, so we will specify which one to use for each run shortly._
 
 - cd into the "**sca-test**" folder as shown below
 
@@ -141,7 +142,7 @@ $ cd ..
 
 - Run it as follows
 
-_Note: Here we specify the REGO policy file we wish to use_
+_Note: Here we specify the Rego policy file we wish to use_
 
 ```shell
 $ snyk test --json ./snyk-boot-web | conftest test --policy=./policy/exploit-and-severity-count-test.rego -
@@ -158,7 +159,7 @@ FAIL - - main - medium: 23 is greater than the threshold of 5
 The following demo uses a snyk code test JSON result set to look for rule based vulnerabilities over a certain threshold
 
 - cd into the "**code-test**" folder as shown below
-- 
+
 ```shell
 $ cd code-test
 ```
@@ -187,9 +188,18 @@ rule_map = ["HardcodedPassword", "Sqli"]
 
 _Note: This policy file simply checks if we have at least 1 Sql Injection or Hardcode Password Rule Vulnerability. You can add further rules and increase the thresholds rather than just break the policy on a single vuln as shown in the examples above.
 
+Ie:
+
+```python
+rule_names = {
+  "HardcodedPassword": 3,
+  "Sqli": 2
+}
+```
+
 The full rule set of snyk code is [here](https://docs.snyk.io/scan-applications/snyk-code/security-rules-used-by-snyk-code)_
 
-- Run it as follows
+- Run it as follows. Here there is only a single Rego policy file so we don't need to specify which one we are using here
 
 ```shell
 $ snyk code test --json ../sca-test/snyk-boot-web | conftest test -
