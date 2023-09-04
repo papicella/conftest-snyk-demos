@@ -4,12 +4,17 @@ The following demos show how to use [conftest](https://www.conftest.dev/) with S
 
 [Conftest](https://www.conftest.dev/) is a utility to help you write tests against structured configuration data. For instance, you could write tests for your Kubernetes configurations, Tekton pipeline definitions, Terraform code, Serverless configs or any other structured data. In this case we are using JSON return result set from a snyk container, open-source and code test using the Snyk CLI.
 
+These demos are using Open Policy Agent and the Conftest CLI:
+[https://www.conftest.dev/](https://www.conftest.dev/)
+[https://github.com/open-policy-agent/conftest](https://github.com/open-policy-agent/conftest)
+
 ## Pre Requistes
 
 * [Snyk Account](https://app.snyk.io)
 * [Snyk CLI](https://docs.snyk.io/snyk-cli/install-or-update-the-snyk-cli) 
 * [Maven](https://maven.apache.org/) to build the required source code example in order to run a snyk test - Only for Open-Source test
 * [conftest](https://www.conftest.dev/)
+
 
 ## Container Test
 
