@@ -161,6 +161,10 @@ FAIL - - main - medium: 23 is greater than the threshold of 5
 
 In this next demo we look for a specific set of CVE's and if we find any of those we will break the build. Basically we are making sure a set of 3 log4j-core CVE's do not exist in the snyk test output
 
+* CVE-2021-45046
+* CVE-2021-45105
+* CVE-2021-44832
+
 - Take a look at the policy file "**./policy/log4j-core-test.rego**" as shown below
 
 ```python
@@ -184,7 +188,7 @@ deny[msg] {
 cve_map = ["CVE-2021-45046", "CVE-2021-45105", "CVE-2021-44832"]
 ```
 
-- Run it as follows. From here you can see each CVE came up at least once so this will fail then policy check as desired
+- Run it as follows. From here you can see each CVE came up at least once so this will fail the policy check as desired
 
 ```shell
 $ snyk test --json ./snyk-boot-web | conftest test --policy=./policy/log4j-core-test.rego -
@@ -194,6 +198,8 @@ FAIL - - main - CVE-2021-45105: 1 is greater than the threshold of 0
 
 3 tests, 0 passed, 0 warnings, 3 failures, 0 exceptions
 ```
+
+This example showed how you can inspect each element in the CVE array output against a list of CVE's we wish to check for. You could easily adapat this demo to include CWE's or even any other data you wish to use
 
 ## Snyk Code Test
 
@@ -250,7 +256,7 @@ FAIL - - main - Sqli: 1 is greater than the threshold of 0
 2 tests, 0 passed, 0 warnings, 2 failures, 0 exceptions
 ```
 
-### More demos to follow!!!
+If you're unsure what exactly a policy is, or unfamiliar with the Rego policy language, the [Policy Language documentation](https://www.openpolicyagent.org/docs/latest/policy-language/) provided by the Open Policy Agent documentation site is a great resource to read
 
 <hr />
 Pas Apicella [pas at snyk.io] is a Principal Solution Engineer at Snyk APJ 
