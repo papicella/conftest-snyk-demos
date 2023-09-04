@@ -8,7 +8,7 @@ The following demos show how to use [conftest](https://www.conftest.dev/) with S
 
 * [Snyk Account](https://app.snyk.io)
 * [Snyk CLI](https://docs.snyk.io/snyk-cli/install-or-update-the-snyk-cli) 
-* Maven to build the required source code example in order to run a snyk test - Only for Open-Source test
+* [Maven](https://maven.apache.org/) to build the required source code example in order to run a snyk test - Only for Open-Source test
 * [conftest](https://www.conftest.dev/)
 
 ## Container Test
