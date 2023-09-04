@@ -67,9 +67,11 @@ FAIL - - main - medium: 90 is greater than the threshold of 10
 
 ## SCA / Open-Source Test
 
+### exploit-and-severity-count-test.rego 
+
 The following demo uses a snyk test JSON result set against a Rego policy file to break a build based on the policy file conditions.
 
-_Note: The following demos include two Rego policy files, so we will specify which one to use for each run shortly._
+_Note: The following demos include three Rego policy files, so we will specify which one to use for each run shortly._
 
 - cd into the "**sca-test**" folder as shown below
 
@@ -81,11 +83,12 @@ $ cd sca-test
 
 ```shell
 $ ls -la ./policy
-total 16
-drwxr-xr-x  4 pasapicella  staff   128  2 Sep 23:07 .
-drwxr-xr-x  6 pasapicella  staff   192  3 Sep 18:10 ..
+total 24
+drwxr-xr-x  5 pasapicella  staff   160  4 Sep 16:37 .
+drwxr-xr-x  8 pasapicella  staff   256  4 Sep 16:39 ..
 -rw-r--r--  1 pasapicella  staff  1163  2 Sep 23:06 exploit-and-severity-count-test.rego
 -rw-r--r--  1 pasapicella  staff   603  2 Sep 22:53 exploit-test.rego
+-rw-r--r--  1 pasapicella  staff   545  4 Sep 16:37 log4j-core-test.rego
 ```
 
 - For this demo we are going to use the "**exploit-and-severity-count-test.rego**", inspect the file as follows.
@@ -152,6 +155,44 @@ FAIL - - main - high: 9 is greater than the threshold of 2
 FAIL - - main - medium: 23 is greater than the threshold of 5
 
 4 tests, 0 passed, 0 warnings, 4 failures, 0 exceptions
+```
+
+### log4j-core-test.rego
+
+In this next demo we look for a specific set of CVE's and if we find any of those we will break the build. Basically we are making sure a set of 3 log4j-core CVE's do not exist in the snyk test output
+
+- Take a look at the policy file "**./policy/log4j-core-test.rego**" as shown below
+
+```python
+package main
+
+# Set these to the number you require. The policy will fail if it finds  any one of these CVE's in the snyk test
+cves = {
+  "CVE-2021-45046": 0,
+  "CVE-2021-45105": 0,
+  "CVE-2021-44832": 0
+}
+
+deny[msg] {
+  cve = cve_value
+  cve_value = cve_map[_]
+  num = count([vuln | vuln = input.vulnerabilities[_].identifiers.CVE[_]; vuln == cve_value])
+  num > cves[cve_value]
+  msg = sprintf("%s: %v is greater than the threshold of %v", [cve_value, num, cves[cve_value]])
+}
+
+cve_map = ["CVE-2021-45046", "CVE-2021-45105", "CVE-2021-44832"]
+```
+
+- Run it as follows. From here you can see each CVE came up at least once so this will fail then policy check as desired
+
+```shell
+$ snyk test --json ./snyk-boot-web | conftest test --policy=./policy/log4j-core-test.rego -
+FAIL - - main - CVE-2021-44832: 1 is greater than the threshold of 0
+FAIL - - main - CVE-2021-45046: 1 is greater than the threshold of 0
+FAIL - - main - CVE-2021-45105: 1 is greater than the threshold of 0
+
+3 tests, 0 passed, 0 warnings, 3 failures, 0 exceptions
 ```
 
 ## Snyk Code Test
