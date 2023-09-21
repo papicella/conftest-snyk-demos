@@ -263,5 +263,15 @@ FAIL - - main - Sqli: 1 is greater than the threshold of 0
 
 If you're unsure what exactly a policy is, or unfamiliar with the Rego policy language, the [Policy Language documentation](https://www.openpolicyagent.org/docs/latest/policy-language/) provided by the Open Policy Agent documentation site is a great resource to read
 
+## Iceman Demo
+
+Iceman-web is a self-contained demo for Snyk Opensource, Snyk code and Snyk container - All in one go. To make use of the iceman demo, please do the following:
+
+1. Navigate to iceman subdirectory. Policies are defined in the policy sub-dir under iceman sub-dir. Make changes to individual policies as you see fit.
+2. To run iceman demo, Execute the bash script `iceman.sh`. Optionally change the execution cycles based-off your needs. Current sequence is opensource -> code -> container.
+3. under the iceman sub-dir, iceman-web has got package.json manifest file, Next.JS javascript mainly under the app directory and a Dockerfile for the Next.JS app.
+
+> **_NOTE:_**  The repo is for training & testing purposes only. Please do not use the contents for anything production use. Contributions are welcome.
+
 <hr />
 Pas Apicella [pas at snyk.io] is a Principal Solution Engineer at Snyk APJ 
