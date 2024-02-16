@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: snyk-boot-web
+  namespace: apples
+spec:
+  selector:
+    matchLabels:
+      app: snyk-boot-web
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: snyk-boot-web
+    spec:
+      containers:
+        - name: snyk-boot-web
+          image: pasapples/snyk-boot-web:v1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5000

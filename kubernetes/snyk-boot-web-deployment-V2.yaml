@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: snyk-boot-web
+  namespace: apples
+spec:
+  selector:
+    matchLabels:
+      app: snyk-boot-web
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: snyk-boot-web
+    spec:
+      containers:
+        - name: snyk-boot-web
+          image: pasapples/snyk-boot-web:v2
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5000
+          resources:
+            limits:
+              memory: 756Mi
+              cpu: "1"
+            requests:
+              memory: 200Mi
+              cpu: "0.5"
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            runAsUser: 999
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - all
+          volumeMounts:
+            - name: temp-storage
+              mountPath: /tmp
+      volumes:
+        - name: temp-storage
+          emptyDir: {}
