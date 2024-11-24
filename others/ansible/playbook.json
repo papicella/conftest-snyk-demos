@@ -1,0 +1,15 @@
+[
+  {
+    "hosts": "dbservers",
+    "name": "Install MariaDB",
+    "tasks": [
+      {
+        "ansible.builtin.package": {
+          "name": "MariaDB-server-10.8.4-1.fc36",
+          "state": "present"
+        },
+        "name": "Install MariaDB-server"
+      }
+    ]
+  }
+]
