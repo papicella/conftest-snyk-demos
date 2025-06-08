@@ -1,1 +1,1 @@
-snyk code test --json ../sca-test/snyk-boot-web | conftest test --policy=./policy/owasp-top10.rego -
+snyk code test --json ../sca-test/snyk-boot-web | conftest test --rego-version v0 --policy=./policy/owasp-top10.rego -
