@@ -1,0 +1,85 @@
+package main
+
+# Thresholds for exploit types
+exploits = {
+  "Proof of Concept": 5,
+  "Not Defined": 100,
+  "Functional": 1,
+  "Mature": 0, # A threshold of 0 means any occurrence is a failure
+}
+
+# Thresholds for severity levels
+severity_thresholds = {
+  "low": 10,
+  "medium": 5,
+  "high": 2,
+  "critical": 0, # A threshold of 0 means any occurrence is a failure
+}
+
+# --- Exploit Count Checks ---
+
+# Check for "Proof of Concept" vulnerabilities
+deny contains msg if {
+    current_exploit = "Proof of Concept";
+    vuln_count = count([v | v = input.vulnerabilities[_]; v.exploit == current_exploit]);
+    vuln_count > exploits[current_exploit];
+    msg = sprintf("Iceman OSS Policy - Exploit '%s': %v found, exceeds threshold %v", [current_exploit, vuln_count, exploits[current_exploit]])
+}
+
+# Check for "Not Defined" vulnerabilities
+deny contains msg if {
+    current_exploit = "Not Defined";
+    vuln_count = count([v | v = input.vulnerabilities[_]; v.exploit == current_exploit]);
+    vuln_count > exploits[current_exploit];
+    msg = sprintf("Iceman OSS Policy - Exploit '%s': %v found, exceeds threshold %v", [current_exploit, vuln_count, exploits[current_exploit]])
+}
+
+# Check for "Functional" vulnerabilities
+deny contains msg if {
+    current_exploit = "Functional";
+    vuln_count = count([v | v = input.vulnerabilities[_]; v.exploit == current_exploit]);
+    vuln_count > exploits[current_exploit];
+    msg = sprintf("Iceman OSS Policy - Exploit '%s': %v found, exceeds threshold %v", [current_exploit, vuln_count, exploits[current_exploit]])
+}
+
+# Check for "Mature" vulnerabilities
+deny contains msg if {
+    current_exploit = "Mature";
+    vuln_count = count([v | v = input.vulnerabilities[_]; v.exploit == current_exploit]);
+    vuln_count > exploits[current_exploit];
+    msg = sprintf("Iceman OSS Policy - Exploit '%s': %v found, exceeds threshold %v (any occurrence is a failure)", [current_exploit, vuln_count, exploits[current_exploit]])
+}
+
+# --- Severity Count Checks ---
+
+# Check for "low" severity vulnerabilities
+deny contains msg if {
+    current_severity = "low";
+    vuln_count = count([v | v = input.vulnerabilities[_]; v.severity == current_severity]);
+    vuln_count > severity_thresholds[current_severity];
+    msg = sprintf("Iceman OSS Policy - Severity '%s': %v found, exceeds threshold %v", [current_severity, vuln_count, severity_thresholds[current_severity]])
+}
+
+# Check for "medium" severity vulnerabilities
+deny contains msg if {
+    current_severity = "medium";
+    vuln_count = count([v | v = input.vulnerabilities[_]; v.severity == current_severity]);
+    vuln_count > severity_thresholds[current_severity];
+    msg = sprintf("Iceman OSS Policy - Severity '%s': %v found, exceeds threshold %v", [current_severity, vuln_count, severity_thresholds[current_severity]])
+}
+
+# Check for "high" severity vulnerabilities
+deny contains msg if {
+    current_severity = "high";
+    vuln_count = count([v | v = input.vulnerabilities[_]; v.severity == current_severity]);
+    vuln_count > severity_thresholds[current_severity];
+    msg = sprintf("Iceman OSS Policy - Severity '%s': %v found, exceeds threshold %v", [current_severity, vuln_count, severity_thresholds[current_severity]])
+}
+
+# Check for "critical" severity vulnerabilities
+deny contains msg if {
+    current_severity = "critical";
+    vuln_count = count([v | v = input.vulnerabilities[_]; v.severity == current_severity]);
+    vuln_count > severity_thresholds[current_severity];
+    msg = sprintf("Iceman OSS Policy - Severity '%s': %v found, exceeds threshold %v (any occurrence is a failure)", [current_severity, vuln_count, severity_thresholds[current_severity]])
+}
