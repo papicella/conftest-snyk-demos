@@ -6,7 +6,7 @@ echo "
 ███████ ██   ████    ██    ██   ██      ██████  ██      ███████ ██   ████       ███████  ██████   ██████  ██   ██  ██████ ███████
 "
 
-snyk test --json ./iceman-web | conftest test --policy=./policy/iceman-oss.rego -
+snyk test --json ./iceman-web | conftest test --rego-version v0 --policy=./policy/iceman-oss.rego -
 echo "\n"
 
 echo "
@@ -17,7 +17,7 @@ echo "
 ███████ ██   ████    ██    ██   ██      ██████  ██████  ██████  ███████ 
 "
 
-snyk code test --json ./iceman-web | conftest test --policy=./policy/iceman-code.rego -
+snyk code test --json ./iceman-web | conftest test --rego-version v0 --policy=./policy/iceman-code.rego -
 
 echo "\n"
 
@@ -29,4 +29,4 @@ echo "
 ███████ ██   ████    ██    ██   ██      ██████  ██████  ██   ████    ██    ██   ██ ██ ██   ████ ███████ ██   ██
 "
 
-snyk container test iceman-web:latest  --file=./iceman-web/Dockerfile --json | conftest test --policy=./policy/iceman-container.rego -
+snyk container test iceman-web:latest  --file=./iceman-web/Dockerfile --json | conftest test --rego-version v0 --policy=./policy/iceman-container.rego -
