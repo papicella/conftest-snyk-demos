@@ -13,7 +13,7 @@ These demos are using Open Policy Agent and the Conftest CLI:
 * [Snyk Account](https://app.snyk.io)
 * [Snyk CLI](https://docs.snyk.io/snyk-cli/install-or-update-the-snyk-cli) 
 * [Maven](https://maven.apache.org/) to build the required source code example in order to run a snyk test - Only for Open-Source test
-* [conftest](https://www.conftest.dev/)
+* [conftest](https://www.conftest.dev/) - see note [Important: Conftest Update and Potential Breaking Changes](https://github.com/PAS/conftest-snyk-demos/main/README.md#important-conftest-update-and-potential-breaking-changes)
 
 
 ## Container Test
@@ -272,6 +272,20 @@ Iceman-web is a self-contained demo for Snyk Opensource, Snyk code and Snyk cont
 3. under the iceman sub-dir, iceman-web has got package.json manifest file, Next.JS javascript mainly under the app directory and a Dockerfile for the Next.JS app.
 
 > **_NOTE:_**  The repo is for training & testing purposes only. Please do not use the contents for anything production use. Contributions are welcome.
+> 
+
+## Important: Conftest Update and Potential Breaking Changes
+The conftest tool has been updated, and versions v0.60.0 and later now default to Rego syntax v1. This might introduce breaking changes if your existing Rego policies are not compatible with the v1 syntax.
+
+There are 2 ways to handle this:
+
+1. Update Policies to v1 Syntax: It's recommended to update your Rego policies to be compatible with v1. You can do this gradually by adding "**import rego.v1**" to each policy file. For detailed guidance on upgrading, please refer to the official Open Policy Agent documentation.
+2. Continue Using v0 Syntax: If you are not ready to update your policies, you can continue using the older v0 syntax by explicitly setting the --rego-version flag to v0 when running conftest. For example:
+```Bash
+conftest test --rego-version v0 <your-configuration-files>
+```
+> **_NOTE:_** Other versions like v0.59.0 and v0.58.0 also introduced changes related to HCL2 parsing that might affect your configurations if you rely on specific HCL structures. Please check the conftest [release notes](https://www.openpolicyagent.org/docs/latest/v0-upgrade/) for more details if you encounter issues.
+> 
 
 <hr />
 Pas Apicella [pas at snyk.io] is a Principal Solution Engineer at Snyk APJ 
